@@ -1,0 +1,9 @@
+
+output: BookInfo.o Cashier.o InvMenu.o MainMenu.o Reports.o
+	g++ BookInfo.o Cashier.o InvMenu.o MainMenu.o Reports.o -o output
+
+%.o: %.cpp
+	g++ -c %.cpp
+
+clean:
+	rm *.o output
