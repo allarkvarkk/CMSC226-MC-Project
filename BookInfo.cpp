@@ -22,5 +22,3 @@ void bookInfo(char isbn[], char title[], char author[], char publisher[], char d
 	cout << "\n\tWholesale Cost: " << wholesale;
 	cout << "\n\tRetail Price: " << retail;
 }
-
-

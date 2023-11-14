@@ -25,7 +25,7 @@ void cashier() {
 		while (!isValidISBN) {
 			cout << "Please enter the ISBN number: "; cin >> ISBN;
 			for (int i = 0; i < MAX_BOOKS; i++) {
-				if (ISBN == isbn[i]) {
+				if (ISBN == books[i].getISBN()) {
 					index = i;
 					isValidISBN = true;
 					break;
@@ -37,24 +37,24 @@ void cashier() {
 			}
 		}
 		qty = 100;
-		while (qty > qtyOnHand[index]) {
+		while (qty > books[index].getQty()) {
 			cout << "\nPlease enter the quantity you wish to purchase: "; cin >> qty;
 			cin.ignore();
-			if (qty <= qtyOnHand[index]) {
+			if (qty <= books[index].getQty()) {
 				break;
 			}
 			cout << "\nError!! Invalid quantity. Please try again\n";
 		}
-			shoppingCart.push_back("\t" + to_string(qty) + "\t\t" + isbn[index] + "\t" + bookTitle[index] + "\t\t$" + to_string(retail[index]));
+			shoppingCart.push_back("\t" + to_string(qty) + "\t\t" + books[index].getISBN() + "\t" + books[index].getTitle() + "\t\t$" + to_string(books[index].getRetail()));
 
-		subtotal += retail[index] * qty;
+		subtotal += books[index].getRetail() * qty;
 		tax = subtotal * taxPercentage;
 		total = subtotal + tax;
-		cout << "\tDate: " << dateAdded[index];
-		cout << "\n\tQuantity: " << qtyOnHand[index];
-		cout << "\n\tISBN: " << isbn[index];
-		cout << "\n\tTitle: " << bookTitle[index];
-		cout << "\n\tPrice: $" << retail[index];
+		cout << "\tDate: " << books[index].getDateAdded(); //dateAdded[index];
+		cout << "\n\tQuantity: " << books[index].getQty(); //qtyOnHand[index];
+		cout << "\n\tISBN: " << books[index].getISBN(); //isbn[index];
+		cout << "\n\tTitle: " << books[index].getTitle(); //bookTitle[index];
+		cout << "\n\tPrice: $" << books[index].getRetail(); //retail[index];
 		cout << "\n\n\tQuantity\t\tISBN\t\tTitle\t\tPrice\n";
 		cout << "------------------------------------------------------------------------------------------------------------------\n";
 		for (int i = 0; i < shoppingCart.size(); i++) {

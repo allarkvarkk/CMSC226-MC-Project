@@ -66,17 +66,17 @@ void repListing() {
 	cout << setw(10) << " "
 		<< "Entire Inventory " << setw(10) << "\n\n";
 	for (int i = 0; i < MAX_BOOKS; i++) {
-		if (bookTitle[i][0] != '\0') {
+		if (books[i].getTitle() != "\0") {
 			cout << endl << endl << "Book " << i + 1;
 			cout << "\n==================================\n"
-				<< "Title: " << bookTitle[i]
-				<< "\nISBN : " << isbn[i]
-				<< "\nAuthor: " << author[i]
-				<< "\nPublisher: " << publisher[i]
-				<< "\nDate Added: " << dateAdded[i]
-				<< "\nQuantity on Hand: " << qtyOnHand[i]
-				<< "\nWholesale Cost: $" << wholesale[i]
-				<< "\nRetail Price: $" << retail[i]
+				<< "Title: " << books[i].getTitle() //bookTitle[i]
+				<< "\nISBN : " << books[i].getISBN() //isbn[i]
+				<< "\nAuthor: " << books[i].getAuthor() //author[i]
+				<< "\nPublisher: " << books[i].getPub() //publisher[i]
+				<< "\nDate Added: " << books[i].getDateAdded() //dateAdded[i]
+				<< "\nQuantity on Hand: " << books[i].getQty() //qtyOnHand[i]
+				<< "\nWholesale Cost: $" << books[i].getWholesale() //wholesale[i]
+				<< "\nRetail Price: $" << books[i].getRetail() //retail[i]
 				<< "\n==================================\n";
 		}
 	}
@@ -87,15 +87,15 @@ void repWholesale() {
 	cout << "You selected Inventory Wholesale Value\n";
 	double total = 0;
 	for (int i = 0; i < MAX_BOOKS; i++) {
-		if (bookTitle[i][0] != '\0') {
+		if (books[i].getTitle() != "\0") {
 			cout << endl << endl << "Book " << i + 1;
 			cout << "\n==================================\n"
-				<< "Title: " << bookTitle[i]
-				<< "\nISBN : " << isbn[i]
-				<< "\nQuantity on Hand: " << qtyOnHand[i]
-				<< "\nWholesale Cost: $" << wholesale[i]
+				<< "Title: " << books[i].getTitle() 
+				<< "\nISBN : " << books[i].getISBN() 
+				<< "\nQuantity on Hand: " << books[i].getQty() 
+				<< "\nWholesale Cost: $" << books[i].getWholesale() 
 				<< "\n==================================\n";
-			total += wholesale[i] * qtyOnHand[i];
+			total += books[i].getWholesale() * books[i].getQty();
 		}
 	}
 	cout << "Total wholesale value is $" << total << "\n";
@@ -106,15 +106,16 @@ void repRetail() {
 	cout << "You selected Inventory Listing.\n\n";
 	double total = 0;
 	for (int i = 0; i < MAX_BOOKS; i++) {
-		if (bookTitle[i][0] != '\0') {
+		if (books[i].getTitle() != "\0") {
 			cout << "\n\n" << "Book " << i + 1;
 			cout << "\n==================================\n"
-				<< "Title: " << bookTitle[i]
-				<< "\nISBN : " << isbn[i]
-				<< "\nQuantity on Hand: " << qtyOnHand[i]
-				<< "\nRetail Price: $" << retail[i]
+				<< "Title: " << books[i].getTitle() //bookTitle[i]
+				<< "\nISBN : " << books[i].getISBN() //isbn[i]
+				<< "\nQuantity on Hand: " << books[i].getQty() //qtyOnHand[i]
+				<< "\nRetail Price: $" << books[i].getRetail() //retail[i]
 				<< "\n==================================\n";
-			total += retail[i] * qtyOnHand[i];
+			//	total += retail[i] * qtyOnHand[i];
+			total += books[i].getRetail() * books[i].getQty();
 		}
 	}
 	cout << "Total retail value is $" << total << "\n";
@@ -123,19 +124,19 @@ void repRetail() {
 
 void repQty() {
 	cout << "You selected Listing by Quantity\n";
-	int count = getCount(qtyOnHand);
+	int count = getCount();
 	long double* qtyOnHandToDoubles = new long double[count];
 	for (int i = 0; i < count; i++) {
-		qtyOnHandToDoubles[i] = qtyOnHand[i];
+		qtyOnHandToDoubles[i] = books[i].getQty(); //qtyOnHand[i];
 	}
 	int* sort = bubbleSort(qtyOnHandToDoubles, count);
 	for (int i = 0; i < count; i++) {
 		cout << "\n\n" << "Book " << i + 1;
 		cout << "\n==================================\n"
-			<< "Title: " << bookTitle[sort[i]]
-			<< "\nISBN : " << isbn[sort[i]]
-			<< "\nQuantity on Hand: " << qtyOnHand[sort[i]]
-			<< "\nRetail Price: $" << retail[sort[i]]
+			<< "Title: " << books[sort[i]].getTitle() //bookTitle[sort[i]]
+			<< "\nISBN : " << books[sort[i]].getISBN() //isbn[sort[i]]
+			<< "\nQuantity on Hand: " << books[sort[i]].getQty() //qtyOnHand[sort[i]]
+			<< "\nRetail Price: $" << books[sort[i]].getRetail() //retail[sort[i]]
 			<< "\n==================================\n";
 	}
 	currentTime();
@@ -146,19 +147,19 @@ void repQty() {
 void repCost() {
 	cout << "You selected Listing by Cost\n";
 	cout << "You selected Listing by Quantity\n";
-	int count = getCount(qtyOnHand);
+	int count = getCount();
 	long double* costDoubles = new long double[count];
 	for (int i = 0; i < count; i++) {
-		costDoubles[i] = wholesale[i];
+		costDoubles[i] = books[i].getWholesale(); //wholesale[i];
 	}
 	int* sort = bubbleSort(costDoubles, count);
 	for (int i = 0; i < count; i++) {
-		cout << "\n\n" << "Book " <<  i + 1;
+		cout << "\n\n" << "Book " << i + 1;
 		cout << "\n==================================\n"
-			<< "Title: " << bookTitle[sort[i]]
-			<< "\nISBN : " << isbn[sort[i]]
-			<< "\nQuantity on Hand: " << qtyOnHand[sort[i]]
-			<< "\nWholesale Cost: $" << wholesale[sort[i]] 
+			<< "Title: " << books[sort[i]].getTitle() //bookTitle[sort[i]]
+			<< "\nISBN : " << books[sort[i]].getISBN() //isbn[sort[i]]
+			<< "\nQuantity on Hand: " << books[sort[i]].getQty() //qtyOnHand[sort[i]]
+			<< "\nWholesale Cost: $" << books[sort[i]].getWholesale() //wholesale[sort[i]] 
 			<< "\n==================================\n";
 	}
 	currentTime();
@@ -168,11 +169,11 @@ void repCost() {
 
 void repAge() {
 	cout << "You selected Listing by Age\n";
-	int count = getCount(qtyOnHand);
+	int count = getCount();
 	long double* dates = new long double[count];
 	for (int i = 0; i < count; i++) {
 		int month, day, year;
-		sscanf(dateAdded[i], "%d.%d.%d", &month, &day, &year);
+		sscanf(books[i].getDateAdded().c_str(), "%d.%d.%d", &month, &day, &year);
 		long long dateValue = year * 10000 + month * 100 + day;
 		dates[i] = dateValue;
 	}
@@ -181,10 +182,10 @@ void repAge() {
 	for (int i = count - 1; i >= 0; i--) {
 		cout << "\n\n" << "Book " << count - i;
 		cout << "\n==================================\n"
-			<< "Title: " << bookTitle[sort[i]]
-			<< "\nISBN : " << isbn[sort[i]]
-			<< "\nQuantity on Hand: " << qtyOnHand[sort[i]]
-			<< "\nDate Added: " << dateAdded[sort[i]]
+			<< "Title: " << books[sort[i]].getTitle() //bookTitle[sort[i]]
+			<< "\nISBN : " << books[sort[i]].getISBN() //isbn[sort[i]]
+			<< "\nQuantity on Hand: " << books[sort[i]].getQty() //qtyOnHand[sort[i]]
+			<< "\nDate Added: " << books[sort[i]].getDateAdded() //dateAdded[sort[i]]
 			<< "\n==================================\n";
 	}
 	delete[] dates;
@@ -218,10 +219,10 @@ int* bubbleSort(long double arr[], int n) {
 }
 
 
-int getCount(int arr[]) {
+int getCount() {
 	int count = 0;
 	for (int i = 0; i < MAX_BOOKS; i++) {
-		if (bookTitle[i][0] != '\0') {
+		if (books[i].getTitle() != "\0") {
 			count = i + 1;
 		}
 	}
